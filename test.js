@@ -1,1 +1,0 @@
-document.getElementById("status").innerHTML = "the text appeared";
