@@ -21,15 +21,44 @@ function formatTime(time){
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-	if(request.msg == "video"){
-		var video = document.getElementsByTagName("video").item(0);
-		var currentTime = document.getElementsByClassName("ytp-time-current").item(0);
-		var duration = document.getElementsByClassName("ytp-time-duration").item(0);
-		currentTime.outerHTML = "<span1 class='ytp-time-current'>CHANGED</span>";
-		duration.textContent = formatTime(video.duration);
-		sendResponse("Executed");
-	
-	}
+	if(request.msg == "video")
+		sendResponse("Executedpbr");
 });
+
+function initialize(){
+	currentTime.outerHTML = "<span1 class='ytp-time-current'>CHANGED</span>";
+	if(!isNaN(video.duration/video.playbackRate))
+		duration.textContent = formatTime(video.duration/video.playbackRate);
+	video.addEventListener("durationchange", function(){
+		if(!isNaN(video.duration/video.playbackRate))
+			duration.textContent = formatTime(video.duration/video.playbackRate);
+	});
+	video.addEventListener("ratechange", function(){
+		if(!isNaN(video.duration/video.playbackRate))
+			duration.textContent = formatTime(video.duration/video.playbackRate);
+	});
+}
+
+var video;
+var currentTime;
+var duration;
+
+var videoElsReady = setInterval(function(){
+	if(document.getElementsByTagName("video").item(0) != null){
+		if(document.getElementsByClassName("ytp-time-current") != null){
+			if(document.getElementsByClassName("ytp-time-duration") != null){
+				clearInterval(videoElsReady);
+				video = document.getElementsByTagName("video").item(0)
+				currentTime = document.getElementsByClassName("ytp-time-current").item(0);
+				duration = document.getElementsByClassName("ytp-time-duration").item(0);
+				//video.addEventListener("loadstart", initialize)
+				initialize();
+			}
+		}
+	}
+},100);
+
+
+
 
 
