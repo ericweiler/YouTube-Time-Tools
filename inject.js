@@ -29,7 +29,7 @@ function initialize(){
 
 	setInterval(function(){
 		currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
-	},100);
+	},1000);
 
 	if(!isNaN(video.duration/video.playbackRate)){
 		duration.textContent = formatTime(video.duration/video.playbackRate);
