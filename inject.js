@@ -26,16 +26,26 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 });
 
 function initialize(){
-	currentTime.outerHTML = "<span1 class='ytp-time-current'>CHANGED</span>";
-	if(!isNaN(video.duration/video.playbackRate))
+
+	setInterval(function(){
+		currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
+	},100);
+
+	if(!isNaN(video.duration/video.playbackRate)){
 		duration.textContent = formatTime(video.duration/video.playbackRate);
+		currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
+	}
 	video.addEventListener("durationchange", function(){
-		if(!isNaN(video.duration/video.playbackRate))
+		if(!isNaN(video.duration/video.playbackRate)){
 			duration.textContent = formatTime(video.duration/video.playbackRate);
+			currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
+		}
 	});
 	video.addEventListener("ratechange", function(){
-		if(!isNaN(video.duration/video.playbackRate))
+		if(!isNaN(video.duration/video.playbackRate)){
 			duration.textContent = formatTime(video.duration/video.playbackRate);
+			currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
+		}
 	});
 }
 
@@ -50,8 +60,9 @@ var videoElsReady = setInterval(function(){
 				clearInterval(videoElsReady);
 				video = document.getElementsByTagName("video").item(0)
 				currentTime = document.getElementsByClassName("ytp-time-current").item(0);
+				currentTime.outerHTML = "<span1 class='ytp-time-current'></span>";
+				currentTime = document.getElementsByTagName("span1").item(0);
 				duration = document.getElementsByClassName("ytp-time-duration").item(0);
-				//video.addEventListener("loadstart", initialize)
 				initialize();
 			}
 		}
