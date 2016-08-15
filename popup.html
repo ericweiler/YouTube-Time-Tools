@@ -2,22 +2,72 @@
 <html>
 <head>
 	<title>Youtube Speed Tools</title>
-	<style>
-		#status {
-		width: 200px;
-		}
-		button {
-			display: block;
-		}
-	</style>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
-	<p>input</p>
-	<input type="text" id="input">
-	<p>output</p>
-	<textarea readonly rows="1" cols="25" id="output"></textarea>
+	<audio preload="auto">
+    	<source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.mp3?raw=true" type="audio/mp3" />
+    	<source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.ogg?raw=true" type="audio/ogg" />
+	</audio>
+	<div id="mylogo">
+		<img src="logo.png">
+		<h1>Time Tools</h1>
+	</div>
+	<div class="headers" id="first">Duration Shift</div>
+	<button id="toggle"></button>
+	<div class="headers">Total watch time</div>
+	<div class="timestats">
+		<div class="unit" id="years">
+			<div class="number"></div>
+			YEARS
+		</div>
+		<div class="unit" id="days">
+			<div class="number">364</div>
+			DAYS
+		</div>
+		<div class="unit" id="hours">
+			<div class="number"></div>
+			HOURS
+		</div>
+		<div class="unit" id="minutes">
+			<div class="number"></div>
+			MINUTES
+		</div>
+		<div class="unit" id="seconds">
+			<div class="number"></div>
+			SEC
+		</div>
+	</div>
+	<button class="totalbuttons">Pause</button>
+	<button class="totalbuttons">Reset</button>
+
+	<div class="headers" id="second">Time saved using faster playback</div>
+	<div class="timestats">
+		<div class="unit" id="years">
+			<div class="number"></div>
+			YEARS
+		</div>
+		<div class="unit" id="days">
+			<div class="number"></div>
+			DAYS
+		</div>
+		<div class="unit" id="hours">
+			<div class="number"></div>
+			HOURS
+		</div>
+		<div class="unit" id="minutes">
+			<div class="number"></div>
+			MINUTES
+		</div>
+		<div class="unit" id="seconds">
+			<div class="number"></div>
+			SEC
+		</div>
+	</div>
+	<button class="totalbuttons">Pause</button>
+	<button class="totalbuttons">Reset</button>
 	
-	<input type="button" id="Save" value="Save">
 	<script src="popup.js"></script>
 </body>
 </html>

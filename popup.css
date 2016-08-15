@@ -1,0 +1,67 @@
+body { 
+	font-family: 'Open Sans', sans-serif;
+	text-align: center;
+	padding:20px;
+	padding-top: 0px;
+}
+h1{
+	font-size: 26px;
+	display: inline-block;
+}
+button {
+	height:40px; 
+	width:290px;
+	border:0; 
+    border-radius: 3px;
+    outline: 0;
+    font-size: 16pt;
+    padding:0;
+    margin-top: 3px;
+}
+#first {
+	margin-top: 15px;
+}
+.timestats {
+
+}
+.headers {
+	margin-top: 30px;
+	margin-bottom:5px;
+	font-size: 14pt;
+}
+#second {
+	margin:auto;
+	margin-top: 35px;
+	margin-bottom: 5px;
+}
+.totalbuttons{
+	width:142px;
+	display:inline-block;
+}
+.totalbuttons:hover{
+	background-color: SlateGrey;
+	color:white;
+}
+.number{
+	font-size: 20pt;
+	width:55px;
+	height:36px;
+}
+.unit{
+	display:inline-block;
+	width:55px;
+	background-color: #75BEEB;
+	font-size: 8pt;
+	border-radius: 3px;
+	color: white;
+}
+img{
+	width: 92px;
+	position: relative;
+	top: 20%;
+}
+#mylogo{
+	width:300px;
+	height:70px;
+	margin:auto;
+}
