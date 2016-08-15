@@ -53,6 +53,7 @@ var video;
 var currentTime;
 var duration;
 
+
 var videoElsReady = setInterval(function(){
 	if(document.getElementsByTagName("video").item(0) != null){
 		if(document.getElementsByClassName("ytp-time-current") != null){
