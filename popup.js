@@ -1,5 +1,68 @@
 var button = document.getElementById("toggle");
+
+var Tyears = document.getElementById("Tyears");
+var Tdays = document.getElementById("Tdays"); 
+var Thours = document.getElementById("Thours"); 
+var Tminutes = document.getElementById("Tminutes"); 
+var Tseconds = document.getElementById("Tseconds"); 
+
+var Syears = document.getElementById("Syears"); 
+var Sdays = document.getElementById("Sdays"); 
+var Shours = document.getElementById("Shours"); 
+var Sminutes = document.getElementById("Sminutes"); 
+var Sseconds = document.getElementById("Sseconds"); 
+
 var mode;
+
+function formatTime(time){
+	var formattedTime = "";
+	time = Math.ceil(time);
+	var addZero = false;
+	if(time >= 3600){
+		addZero = true;
+		formattedTime += Math.floor(time / 3600);
+		formattedTime += ":";
+		time -= Math.floor(time/3600)*3600;
+	}
+	if(Math.floor(time/60) < 10  && addZero)
+		formattedTime += "0";
+	formattedTime += Math.floor(time/60);
+	formattedTime += ":";
+	time -= Math.floor(time/60)*60;
+	if(time < 10)
+		formattedTime += "0";
+	formattedTime += time;
+	return formattedTime;
+}
+
+function formatTotals(seconds){
+	if(seconds >= 3153600){
+		Tyears.innerHTML = Math.floor(seconds / 3153600);
+		seconds -= Math.floor(seconds / 3153600)*3153600;
+	}
+	if(seconds >= 86400){
+		Tdays.innerHTML = Math.floor(seconds / 86400);
+		seconds -= Math.floor(seconds / 86400)*86400;
+	}
+	if(seconds >= 3600){
+		Thours.innerHTML = Math.floor(seconds / 3600);
+		seconds -= Math.floor(seconds / 3600)*3600;
+	}
+	if(seconds >= 60){
+		Tminutes.innerHTML = Math.floor(seconds / 60);
+		seconds -= Math.floor(seconds / 60)*60;
+	}
+	Tseconds.innerHTML = seconds;
+
+
+	// Syears.innerHTML = "365";
+	// Sdays.innerHTML = "365";
+	// Shours.innerHTML = "365";
+	// Sminutes.innerHTML = "365";
+	// Sseconds.innerHTML = "365";
+	
+}
+
 
 button.onclick = function(){
 	chrome.storage.sync.get("setting", function(object){
@@ -66,17 +129,14 @@ chrome.storage.sync.get("setting", function(object){
 	}	
 });
 
+chrome.storage.sync.get("overall", function(object){
+	if(object.overall === undefined)
+		chrome.storage.sync.set({"overall": 0});
+	formatTotals(object.overall);
+});
 
+chrome.storage.onChanged.addListener(function(object, namespace){
+	formatTotals(object.overall.newValue);
+});
 
-
-
-// chrome.storage.sync.get("setting", function(object){
-// 	output.textarea = object.setting
-// });
-
-//  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//   chrome.tabs.sendMessage(tabs[0].id, {msg: "video"}, function(x){
-//   	document.getElementById("status").innerHTML = "Response2: " + x;
-//   });
-// });
 

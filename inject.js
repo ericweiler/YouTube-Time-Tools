@@ -17,14 +17,7 @@ function formatTime(time){
 		formattedTime += "0";
 	formattedTime += time;
 	return formattedTime;
-
 }
-
-
-var video;
-var currentTime;
-var duration;
-var refreshCurrentTime;
 
 function durationchange(){
 	if(!isNaN(video.duration/video.playbackRate)){
@@ -32,6 +25,7 @@ function durationchange(){
 		currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
 	}
 }
+
 function ratechange(){
 	if(!isNaN(video.duration/video.playbackRate)){
 		duration.textContent = formatTime(video.duration/video.playbackRate);
@@ -45,7 +39,6 @@ function durationShiftOn(){
 			if(document.getElementsByClassName("ytp-time-current") != null){
 				if(document.getElementsByClassName("ytp-time-duration") != null){
 					clearInterval(videoElsReady);
-					video = document.getElementsByTagName("video").item(0)
 					currentTime = document.getElementsByClassName("ytp-time-current").item(0);
 					currentTime.outerHTML = "<span1 class='ytp-time-current'></span>";
 					currentTime = document.getElementsByTagName("span1").item(0);
@@ -68,6 +61,19 @@ function durationShiftOn(){
 	},100);
 }
 
+function incrimentTotals(totalType){
+	if(totalType == "overall"){
+		chrome.storage.sync.get("overall", function(object){
+			if(object.overall === undefined)
+				chrome.storage.sync.set({"overall": 0})
+			chrome.storage.sync.set({"overall": (object.overall + 1)});
+		});
+	}
+	if(totalType == "timeSaved"){
+
+	}
+}
+
 function durationShiftOff(){
 	video.removeEventListener("durationchange", durationchange);
 	video.removeEventListener("ratechange", ratechange);
@@ -78,19 +84,43 @@ function durationShiftOff(){
 	},1000);
 }
 
-chrome.storage.sync.get("setting", function(object){
-	if(object.setting === undefined)
-		chrome.storage.sync.set({"setting": true});
-	if(object.setting == true)
-		durationShiftOn();
-});
+function setup(){
+	video = document.getElementsByTagName("video").item(0);
+	Object.defineProperty(HTMLMediaElement.prototype, 'playing', {
+    	get: function(){
+        	return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
+    	}
+	});
+	chrome.storage.sync.get("setting", function(object){
+		if(object.setting === undefined)
+			chrome.storage.sync.set({"setting": true});
+		if(object.setting == true)
+			durationShiftOn();
+	});
+	chrome.storage.onChanged.addListener(function(object, namespace){
+		if(object.setting.newValue == true)
+			durationShiftOn();
+		else
+			durationShiftOff();
+	});
+	var trackTime = setInterval(function(){
+		if(video.playing)
+			incrimentTotals("overall");
+	}, 1000)
+}
 
-chrome.storage.onChanged.addListener(function(object, namespace){
-	if(object.setting.newValue == true)
-		durationShiftOn();
-	else
-		durationShiftOff();
-});
+var video;
+var currentTime;
+var duration;
+var refreshCurrentTime;
+
+var videoReady = setInterval(function(){
+	if(document.getElementsByTagName("video").item(0) != null){
+		clearInterval(videoReady);
+		setup();
+	}
+},100);
+
 
 
 
