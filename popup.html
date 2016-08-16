@@ -6,10 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="popup.css">
 </head>
 <body>
-	<audio preload="auto">
-    	<source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.mp3?raw=true" type="audio/mp3" />
-    	<source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.ogg?raw=true" type="audio/ogg" />
-	</audio>
 	<div id="mylogo">
 		<img src="logo.png">
 		<h1>Time Tools</h1>
@@ -39,8 +35,8 @@
 			SEC
 		</div>
 	</div>
-	<button class="totalbuttons">Pause</button>
-	<button class="totalbuttons">Reset</button>
+	<button class="totalbuttons" id="pauseTotals"></button>
+	<button class="totalbuttons" id="resetTotals">Reset</button>
 
 	<div class="headers" id="second">Time saved using faster playback</div>
 	<div class="timestats">
@@ -65,8 +61,8 @@
 			SEC
 		</div>
 	</div>
-	<button class="totalbuttons">Pause</button>
-	<button class="totalbuttons">Reset</button>
+	<button class="totalbuttons" id="pauseSaved"></button>
+	<button class="totalbuttons" id="resetSaved">Reset</button>
 	
 	<script src="popup.js"></script>
 </body>

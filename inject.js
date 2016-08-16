@@ -91,28 +91,45 @@ function setup(){
         	return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
     	}
 	});
-	chrome.storage.sync.get("setting", function(object){
+	chrome.storage.sync.get(["setting", "paused"], function(object){
 		if(object.setting === undefined)
 			chrome.storage.sync.set({"setting": true});
+		if(object.paused === undefined){
+			chrome.storage.sync.set({"paused": false});
+			paused = false;
+		}
+		if(object.paused == true)
+			paused = true;
+		else
+			paused = false;
 		if(object.setting == true)
 			durationShiftOn();
 	});
 	chrome.storage.onChanged.addListener(function(object, namespace){
+		if(object.paused.newValue == true)
+			paused = true;
+		if(object.paused.newValue == false)
+			paused = false;
+	});
+	chrome.storage.onChanged.addListener(function(object, namespace){
 		if(object.setting.newValue == true)
 			durationShiftOn();
-		else
+		if(object.setting.newValue == false)
 			durationShiftOff();
 	});
 	var trackTime = setInterval(function(){
-		if(video.playing)
+		if(video.playing && !paused)
 			incrimentTotals("overall");
-	}, 1000)
+	}, 1000);
 }
 
 var video;
 var currentTime;
 var duration;
 var refreshCurrentTime;
+var currentTab;
+var paused;
+
 
 var videoReady = setInterval(function(){
 	if(document.getElementsByTagName("video").item(0) != null){

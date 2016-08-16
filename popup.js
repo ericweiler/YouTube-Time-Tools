@@ -1,4 +1,8 @@
 var button = document.getElementById("toggle");
+var pauseTotals = document.getElementById("pauseTotals");
+var resetTotals = document.getElementById("resetTotals");
+var pauseSaved = document.getElementById("pauseSaved");
+var resetSaved = document.getElementById("resetSaved");
 
 var Tyears = document.getElementById("Tyears");
 var Tdays = document.getElementById("Tdays"); 
@@ -62,7 +66,22 @@ function formatTotals(seconds){
 	// Sseconds.innerHTML = "365";
 	
 }
+pauseTotals.onclick = function(){
+	chrome.storage.sync.get("paused", function(object){
+		if(object.paused == true){
+			chrome.storage.sync.set({"paused": false});
+			pauseTotals.innerHTML = "Pause";
+		}
+		else{
+			chrome.storage.sync.set({"paused": true});
+			pauseTotals.innerHTML = "Play";
+		}
+	});
+}
 
+resetTotals.onclick = function(){
+	chrome.storage.sync.set({"overall": 0})
+}
 
 button.onclick = function(){
 	chrome.storage.sync.get("setting", function(object){
@@ -74,7 +93,6 @@ button.onclick = function(){
 			mode = false;
 		}
 		else{
-			document.getElementsByTagName('audio')[0].play();
 			chrome.storage.sync.set({"setting": true});
 			button.innerHTML = "Yeah!";
 			button.style.backgroundColor = "#5AE87C";
@@ -129,9 +147,15 @@ chrome.storage.sync.get("setting", function(object){
 	}	
 });
 
-chrome.storage.sync.get("overall", function(object){
+chrome.storage.sync.get(["overall", "paused"], function(object){
 	if(object.overall === undefined)
 		chrome.storage.sync.set({"overall": 0});
+	if(object.paused === undefined)
+		chrome.storage.sync.set({"paused": false});
+	if(object.paused == false)
+		pauseTotals.innerHTML = "Pause";
+	else
+		pauseTotals.innerHTML = "Play";
 	formatTotals(object.overall);
 });
 

@@ -10,7 +10,7 @@
 		"default_title": "Youtube Speed Tools",
 		"default_popup": "popup.html"
 	},
-	"permissions": [ "activeTab", "storage" ],
+	"permissions": ["storage", "tabs"],
 	"content_scripts": [{
 			"matches": ["https://www.youtube.com/*", "http://www.youtube.com/*"],
 			"all_frames": true,
