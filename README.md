@@ -1,4 +1,4 @@
-# Youtube-Speed-Tools-Extension
+# Youtube-Time-Tools-Extension
 Features: 
 
 	-Enables the video duration timestamp to scale with video speed.
