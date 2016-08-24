@@ -49,16 +49,16 @@ function durationShiftOn(){
           duration = document.getElementsByClassName("ytp-time-duration").item(0);     //set references
           
           clearInterval(refreshCurrentTime);
-          refreshCurrentTime = setInterval(function(){                //define new function to refresh the time.
-            currentTime.textContent = formatTime(video.currentTime/video.playbackRate); //currentTime/playbackRate will allow the current time to display the proper current time when the video duration is scaled with playbackrate.
-          },1000);                                    //a nice side effect is that the current time will tick once per second regardless of play back rate.
+          refreshCurrentTime = setInterval(function(){                                 //define new function to refresh the time.
+            currentTime.textContent = formatTime(video.currentTime/video.playbackRate);//currentTime/playbackRate will allow the current time to display the proper current time when the video duration is scaled with playbackrate.
+          },1000);                                                                     //a nice side effect is that the current time will tick once per second regardless of play back rate.
 
-          if(!isNaN(video.duration/video.playbackRate)){                  //on new video load, sometimes the values for playbackrate and/or duration are undefined. Only print values if they are defined
+          if(!isNaN(video.duration/video.playbackRate)){                               //on new video load, sometimes the values for playbackrate and/or duration are undefined. Only print values if they are defined
             duration.textContent = formatTime(video.duration/video.playbackRate);   
             currentTime.textContent = formatTime(video.currentTime/video.playbackRate);
           }
-          video.addEventListener("durationchange", durationchange);         //update duration and currentTime when new video loads
-          video.addEventListener("ratechange", ratechange);             //update duration and currentTime when the rate changes
+          video.addEventListener("durationchange", durationchange);                    //update duration and currentTime when new video loads
+          video.addEventListener("ratechange", ratechange);                            //update duration and currentTime when the rate changes
         }
       }
     }
@@ -93,7 +93,7 @@ function durationShiftOff(){
 }
 
 function setup(){ //
-  video = document.getElementsByTagName("video").item(0); //get <video> reference
+  video = document.getElementsByTagName("video").item(0);         //get <video> reference
   Object.defineProperty(HTMLMediaElement.prototype, 'playing', {  //define .playing for video elements. Credit: http://stackoverflow.com/questions/6877403/how-to-tell-if-a-video-element-is-currently-playing/6877530
     get: function(){
       return !!(this.currentTime > 0 && !this.paused && !this.ended && this.readyState > 2);
@@ -144,17 +144,17 @@ function setup(){ //
     To avoid breaking the MAX_WRITE_OPERATIONS_PER_HOUR limit, this script will only update the totals every five seconds UNLESS the browser action popup is open. If the browswer action popup is open
     the user is engaged with the GUI and the update rate is increased to once per second so that the totals fields in the popup look like a "ticking clock". This functionality is implemented below.
   */
-  var trackTime = setInterval(function(){   //This interval checks to see if the browser action is open every second.
+  var trackTime = setInterval(function(){                                     //This interval checks to see if the browser action is open every second.
     chrome.runtime.sendMessage({message: "You There?"}, function(response) {  //is the browser action open?
-      if(response == "yes"){                          //if it is
-        if(video.playing && !paused)                    //so long as the video is playing and is not paused, increment the totals for the last second.
+      if(response == "yes"){                                                  //if it is
+        if(video.playing && !paused)                                          //so long as the video is playing and is not paused, increment the totals for the last second.
           incrimentTotals("overall", 1);
         if(video.playing && !savedPaused)
-          incrimentTotals("timeSaved", 1 - (1/video.playbackRate));     //1 - 1/rate yields time saved
+          incrimentTotals("timeSaved", 1 - (1/video.playbackRate));           //1 - 1/rate yields time saved
       }
-      else{                                 //otherwise the browser action is not open
-        if(everyFiveSeconds % 5 == 0){                    //if it has been five seconds since the last update
-          if(video.playing && !paused)                  //so long as the video is playing and is not paused, increment the totals for the last five seconds.
+      else{                                                                   //otherwise the browser action is not open
+        if(everyFiveSeconds % 5 == 0){                                        //if it has been five seconds since the last update
+          if(video.playing && !paused)                                        //so long as the video is playing and is not paused, increment the totals for the last five seconds.
             incrimentTotals("overall", 5);
           if(video.playing && !savedPaused)
             incrimentTotals("timeSaved", 5 - (5/video.playbackRate));
@@ -174,12 +174,12 @@ function setup(){ //
   });
 }
 
-var video;  //video element reference
-var currentTime;  //current time <span> reference
-var duration;   //duration <span> reference
-var refreshCurrentTime; //interval function variable
-var paused; //boolean to store the state of the "paused" variable in chrome.storage so that interval function can reference it without having to call chrome.storage repeatedly
-var savedPaused; //same thing, just for "savedPaused" in chrome.storage
+var video;               //video element reference
+var currentTime;         //current time <span> reference
+var duration;            //duration <span> reference
+var refreshCurrentTime;  //interval function variable
+var paused;              //boolean to store the state of the "paused" variable in chrome.storage so that interval function can reference it without having to call chrome.storage repeatedly
+var savedPaused;         //same thing, just for "savedPaused" in chrome.storage
 var everyFiveSeconds = 0;
 
 

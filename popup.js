@@ -27,7 +27,7 @@ var mode;   //boolean to represent the state of the Duration Shift button. Used 
 //"setting" : boolean to store Duration Shift setting
 
 function formatTotals(seconds){   //takes time in seconds, formats, and then prints to Total Watch Time field
-  if(seconds >= 3153600){     //no. of seconds in a year
+  if(seconds >= 3153600){         //no. of seconds in a year
     Tyears.innerHTML = Math.floor(seconds / 3153600);
     seconds -= Math.floor(seconds / 3153600)*3153600;
   }
