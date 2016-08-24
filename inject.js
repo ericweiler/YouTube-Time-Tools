@@ -140,17 +140,21 @@ function setup(){	//
 		if(object.setting.newValue == false)
 			durationShiftOff();
 	});
-	var trackTime = setInterval(function(){		//so long as the video is playing and the user has the settings for overall time and saved time enabled, increment the values.
-		chrome.runtime.sendMessage({message: "You There?"}, function(response) {
- 			if(response == "yes"){
-				if(video.playing && !paused)
+	/*
+		To avoid breaking the MAX_WRITE_OPERATIONS_PER_HOUR limit, this script will only update the totals every five seconds UNLESS the browser action popup is open. If the browswer action popup is open
+		the user is engaged with the GUI and the update rate is increased to once per second so that the totals fields in the popup look like a "ticking clock". This functionality is implemented below.
+	*/
+	var trackTime = setInterval(function(){		//This interval checks to see if the browser action is open every second.
+		chrome.runtime.sendMessage({message: "You There?"}, function(response) {	//is the browser action open?
+ 			if(response == "yes"){													//if it is
+				if(video.playing && !paused)										//so long as the video is playing and is not paused, increment the totals for the last second.
 					incrimentTotals("overall", 1);
 				if(video.playing && !savedPaused)
-					incrimentTotals("timeSaved", 1 - (1/video.playbackRate)); //1 - 1/rate yields time saved
+					incrimentTotals("timeSaved", 1 - (1/video.playbackRate)); 		//1 - 1/rate yields time saved
  			}
- 			else{
- 				if(everyFiveSeconds % 5 == 0){
- 					if(video.playing && !paused)
+ 			else{																	//otherwise the browser action is not open
+ 				if(everyFiveSeconds % 5 == 0){										//if it has been five seconds since the last update
+ 					if(video.playing && !paused)									//so long as the video is playing and is not paused, increment the totals for the last five seconds.
 						incrimentTotals("overall", 5);
 					if(video.playing && !savedPaused)
 						incrimentTotals("timeSaved", 5 - (5/video.playbackRate));

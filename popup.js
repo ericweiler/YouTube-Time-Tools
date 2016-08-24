@@ -156,9 +156,16 @@ button.onmouseout = function(){
 		button.style.color = "white";
 	}
 }
+var secs = 0;
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-	if(request.message == "You There?")
+setInterval(function(){ //When the browser action is opened the update rate for the Totals and Time Saved fields is increased from every 5 seconds to every second 
+	if(secs > 30)		//so that the gui behavior is more engaging as the user can see the time increasing in "real time". However, this is costly because at this rate
+		window.close();	//MAX_WRITE_OPERATIONS_PER_HOUR would be violated very quickly. This interval will close the window automatically after 30 seconds in case the user forgets to close
+	secs++;				//the window, allowing the extension to re-enter the low-update-rate state.
+}, 1000)
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){	//the content script sends a message every second to see if the browser action popup is open, if it isn't the update rate will be low,
+	if(request.message == "You There?")											//if it is, the update rate will be high.
 		sendResponse("yes");
 });
 
