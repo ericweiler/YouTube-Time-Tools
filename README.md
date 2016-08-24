@@ -1,4 +1,4 @@
-# Youtube-Time-Tools-Extension
+# Youtube Time Tools 
 Features: 
 
 	-Enables the video duration timestamp to scale with video speed.
@@ -8,4 +8,6 @@ Features:
 	-Tracks overall time saved when using faster video speeds.
 
 	-Tracks overall time spent watching youtube videos.
+
+Download at: https://chrome.google.com/webstore/detail/youtube-time-tools/cobnfdhokdhiglbojmoapeccpbhonhgi
 
