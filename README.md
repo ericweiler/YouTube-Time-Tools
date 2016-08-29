@@ -1,4 +1,7 @@
 # Youtube Time Tools 
+
+This extension was inspired by the science of accelerated playback, read about it here: https://github.com/igrigorik/videospeed/blob/master/README.md
+
 Features: 
 
 	-Enables the video duration timestamp to scale with video speed.
@@ -11,5 +14,6 @@ Features:
 
 Download at: https://chrome.google.com/webstore/detail/youtube-time-tools/cobnfdhokdhiglbojmoapeccpbhonhgi
 
-It is HIGHLY recommended that you use this extension with Video Speed Controller availible at: https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk
+It is HIGHLY recommended that you use this extension with Video Speed Controlle, available at: https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk
+
 

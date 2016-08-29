@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
-	"name": "Youtube Time Tools",
-	"version": "1.0.1",
+	"name": "YouTube Time Tools",
+	"version": "1.0.2",
 	
 	"description": "Track total time spent watching, scale video duration with video speed, and track total time saved when using faster playback",
 	"homepage_url": "https://github.com/ericweiler/Youtube-Time-Tools",
