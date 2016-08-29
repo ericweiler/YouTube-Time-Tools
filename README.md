@@ -1,4 +1,4 @@
-# Youtube Time Tools 
+# YouTube Time Tools 
 
 This extension was inspired by the science of accelerated playback, read about it here: https://github.com/igrigorik/videospeed/blob/master/README.md
 
