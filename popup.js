@@ -16,6 +16,9 @@ var Shours = document.getElementById("Shours");
 var Sminutes = document.getElementById("Sminutes"); 
 var Sseconds = document.getElementById("Sseconds"); 
 
+var Ssince = document.getElementById("Ssince");
+var since = document.getElementById("since");
+
 var mode;   //boolean to represent the state of the Duration Shift button. Used to eliminate calling chrome.storage.get
             //just for mouseover events that just would change the css and not necesserily change the mode.
 
@@ -25,6 +28,38 @@ var mode;   //boolean to represent the state of the Duration Shift button. Used 
 //"overall" : stores total watch time in seconds
 //"timeSaved" : stores total time saved in seconds
 //"setting" : boolean to store Duration Shift setting
+
+function getDate(){
+  var today = new Date();
+  if(today.getMonth() == 0)
+    today = "January ";
+  else if(today.getMonth() == 1)
+    today = "February "; 
+  else if(today.getMonth() == 2)
+    today = "March ";
+  else if(today.getMonth() == 3)
+    today = "April ";
+  else if(today.getMonth() == 4)
+    today = "May ";
+  else if(today.getMonth() == 5)
+    today = "June ";
+  else if(today.getMonth() == 6)
+    today = "July ";
+  else if(today.getMonth() == 7)
+    today = "August ";
+  else if(today.getMonth() == 8)
+    today = "September ";
+  else if(today.getMonth() == 9)
+    today = "October ";
+  else if(today.getMonth() == 10)
+    today = "November ";
+  else
+    today = "December ";
+  today += new Date().getDate();
+  today += ", ";
+  today += new Date().getFullYear();
+  return today;
+}
 
 function formatTotals(seconds){   //takes time in seconds, formats, and then prints to Total Watch Time field
   if(seconds >= 3153600){         //no. of seconds in a year
@@ -96,7 +131,10 @@ pauseTotals.onclick = function(){ //play/pause toggle button, the state is store
 }
 
 resetTotals.onclick = function(){
+  var today = getDate();
   chrome.storage.sync.set({"overall": 0});
+  chrome.storage.sync.set({"since": today});
+  since.innerHTML = "Since " + today;
 }
 
 pauseSaved.onclick = function(){
@@ -113,7 +151,10 @@ pauseSaved.onclick = function(){
 }
 
 resetSaved.onclick = function(){
+  var today = getDate();
   chrome.storage.sync.set({"timeSaved": 0});
+  chrome.storage.sync.set({"Ssince": today});
+  Ssince.innerHTML = "Since " + today;
 }
 
 button.onclick = function(){  //Duration shift toggle
@@ -192,6 +233,29 @@ chrome.storage.sync.get("setting", function(object){
     }
   } 
 });
+
+chrome.storage.sync.get("since", function(object){
+  if(object.since === undefined){
+    var today = getDate();
+    chrome.storage.sync.set({"since": today});
+    since.innerHTML = "Since " + today;
+  }
+  else{
+    since.innerHTML = "Since " + object.since;
+  }
+});
+
+chrome.storage.sync.get("Ssince", function(object){
+  if(object.Ssince === undefined){
+    var today = getDate();
+    chrome.storage.sync.set({"Ssince": today});
+    Ssince.innerHTML = "Since " + today;
+  }
+  else{
+    Ssince.innerHTML = "Since " + object.Ssince;
+  }
+});
+
 
 chrome.storage.sync.get(["overall", "paused", "savedPaused", "timeSaved"], function(object){
   if(object.overall === undefined)        //assign default values on first load.
